@@ -9,9 +9,9 @@ import (
 )
 
 var (
-	logfile        *os.File
-	logger_Error   *log.Logger
-	logger_Message *log.Logger
+	logfile       *os.File
+	loggerError   *log.Logger
+	loggerMessage *log.Logger
 )
 
 func CheckLogFile() {
