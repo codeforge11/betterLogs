@@ -15,6 +15,9 @@ var (
 )
 
 func CheckLogFile() {
+
+	maxLine := 150
+
 	file, err := os.OpenFile("logs/logsfile.txt", os.O_RDWR, 0644)
 	if err != nil {
 		log.Fatalf("Failed to open log file: %s", err)
@@ -27,7 +30,7 @@ func CheckLogFile() {
 		lineCount++
 	}
 
-	if lineCount >= 100 {
+	if lineCount >= maxLine {
 		if _, err := os.Stat("logs/old_logs"); os.IsNotExist(err) {
 			err = os.Mkdir("logs/old_logs", 0755)
 			if err != nil {
