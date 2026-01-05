@@ -1,4 +1,4 @@
-package betterlogs
+package betterLogs
 
 import (
 	"bufio"
