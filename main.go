@@ -9,11 +9,12 @@ import (
 )
 
 var (
-	logfile       *os.File
+	logFile       *os.File
 	loggerError   *log.Logger
 	loggerMessage *log.Logger
-	filePath string = "logs/logsfile.txt"
-	maxLine = 150
+	filePath      string = "logs/logsfile.txt" //Location of the main log file
+	maxLine       int16  = 150                 //The maximum number of lines the main log file can have
+	oldLogsPath          = "logs/old_logs"
 )
 
 func CheckLogFile() {
@@ -30,16 +31,16 @@ func CheckLogFile() {
 		lineCount++
 	}
 
-	if lineCount >= maxLine {
-		if _, err := os.Stat("logs/old_logs"); os.IsNotExist(err) {
-			err = os.Mkdir("logs/old_logs", 0755)
+	if lineCount >= int(maxLine) {
+		if _, err := os.Stat(oldLogsPath); os.IsNotExist(err) {
+			err = os.Mkdir(oldLogsPath, 0755)
 			if err != nil {
-				log.Fatalf("Failed to create logs/old_logs directory: %s", err)
+				log.Fatalf("Failed to create "+oldLogsPath+" directory: %s", err)
 			}
 		}
 
 		currentTime := time.Now().Format("2006-01-02_15-04-05")
-		backupFileName := "logs/old_logs/" + currentTime + "_logs.txt"
+		backupFileName := oldLogsPath + currentTime + "_logs.txt"
 
 		backupFile, err := os.Create(backupFileName)
 		if err != nil {
