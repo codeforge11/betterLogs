@@ -74,14 +74,14 @@ func init() {
 		}
 	}
 
-	logfile, err = os.OpenFile("logs/logsfile.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	logFile, err = os.OpenFile("logs/logsfile.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("Failed to open error log file: %s", err)
 	}
 
-	loggerError = log.New(logfile, "ERROR: ", log.Ldate|log.Ltime)
+	loggerError = log.New(logFile, "ERROR: ", log.Ldate|log.Ltime)
 
-	loggerMessage = log.New(logfile, "", log.Ldate|log.Ltime)
+	loggerMessage = log.New(logFile, "", log.Ldate|log.Ltime)
 
 	CheckLogFile()
 }
