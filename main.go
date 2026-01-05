@@ -12,13 +12,13 @@ var (
 	logfile       *os.File
 	loggerError   *log.Logger
 	loggerMessage *log.Logger
+	filePath string = "logs/logsfile.txt"
+	maxLine = 150
 )
 
 func CheckLogFile() {
 
-	maxLine := 150
-
-	file, err := os.OpenFile("logs/logsfile.txt", os.O_RDWR, 0644)
+	file, err := os.OpenFile(filePath, os.O_RDWR, 0644)
 	if err != nil {
 		log.Fatalf("Failed to open log file: %s", err)
 	}
