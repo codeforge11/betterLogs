@@ -14,7 +14,7 @@ var (
 	loggerMessage *log.Logger
 	filePath      string = "logs/logsfile.txt" //Location of the main log file
 	maxLine       int16  = 150                 //The maximum number of lines the main log file can have
-	oldLogsPath          = "logs/old_logs"
+	oldLogsPath          = "logs/old_logs"     //Location of the old logs files
 )
 
 func CheckLogFile() {
@@ -84,7 +84,7 @@ func init() {
 
 	loggerMessage = log.New(logFile, "", log.Ldate|log.Ltime)
 
-	CheckLogFile()
+	CheckLogFile() //Check if the log file has reached the maximum number of lines
 }
 
 func LogError(err error) {
