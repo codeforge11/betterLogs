@@ -74,7 +74,7 @@ func init() {
 		}
 	}
 
-	logFile, err = os.OpenFile("logs/logsfile.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	logFile, err = os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatalf("Failed to open error log file: %s", err)
 	}
