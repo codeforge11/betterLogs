@@ -1,4 +1,3 @@
-
 # betterLogs
 [![wakatime](https://wakatime.com/badge/user/f21d1d72-d48f-4c76-8d7d-4781e81e04ec/project/02ce9844-9f0c-4f06-b571-49ad56065708.svg)](https://wakatime.com/badge/user/f21d1d72-d48f-4c76-8d7d-4781e81e04ec/project/02ce9844-9f0c-4f06-b571-49ad56065708)
 [![GitHub tag](https://img.shields.io/github/v/tag/codeforge11/betterLogs?style=flat-square)](https://github.com/codeforge11/betterLogs/tags)
@@ -44,6 +43,7 @@ func main() {
     betterLogs.LogMessage("File opened successfully")
 }
 ```
+
 ## More about functions
 
 ```go
@@ -55,3 +55,8 @@ Records error object output. A lightweight function designed to capture error st
 LogMessage("Example comment") 
 ```
 Provides a versatile way to log custom text. It supports strings of any length, making it ideal for tracking application flow and milestones.
+
+```go
+CheckLogFile()
+```
+This function checks if the main log file has exceeded the maximum line limit and performs archiving if necessary. It is optional to call this manually, as the library automatically performs this check every time when your application starts.
