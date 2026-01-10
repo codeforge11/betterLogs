@@ -20,7 +20,7 @@ var (
 
 func CheckLogFile() {
 
-	file, err := os.OpenFile(filePath, os.O_RDWR, 0644)
+	file, err := os.OpenFile(filePath, os.O_RDWR, 0600)
 	if err != nil {
 		log.Fatalf("Failed to open log file: %s", err)
 	}
@@ -34,7 +34,7 @@ func CheckLogFile() {
 
 	if lineCount >= int(maxLine) {
 		if _, err := os.Stat(oldLogsPath); os.IsNotExist(err) {
-			err = os.Mkdir(oldLogsPath, 0755)
+			err = os.Mkdir(oldLogsPath, 0700)
 			if err != nil {
 				log.Fatalf("Failed to create "+oldLogsPath+" directory: %s", err)
 			}
@@ -74,7 +74,7 @@ func init() {
 		log.Fatalf("Failed to create logs directory: %s", err)
 	}
 
-	logFile, err = os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	logFile, err = os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		log.Fatalf("Failed to open error log file: %s", err)
 	}
