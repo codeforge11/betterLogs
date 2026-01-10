@@ -69,7 +69,7 @@ func CheckLogFile() {
 func init() {
 	var err error
 
-	err = os.Mkdir(mainFolder, 0700)
+	err = os.MkdirAll(mainFolder, 0700)
 	if err != nil {
 		log.Fatalf("Failed to create logs directory: %s", err)
 	}
