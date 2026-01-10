@@ -12,9 +12,10 @@ var (
 	logFile       *os.File
 	loggerError   *log.Logger
 	loggerMessage *log.Logger
-	filePath      string = "logs/logsfile.txt" //Location of the main log file
-	maxLine       int16  = 150                 //The maximum number of lines the main log file can have
-	oldLogsPath          = "logs/old_logs"     //Location of the old logs files
+	mainFolder    string = "logs"
+	filePath      string = mainFolder + "/logsfile.txt" //Location of the main log file
+	maxLine       int16  = 150                          //The maximum number of lines the main log file can have
+	oldLogsPath          = mainFolder + "/old_logs"     //Location of the old logs files
 )
 
 func CheckLogFile() {
@@ -68,11 +69,9 @@ func CheckLogFile() {
 func init() {
 	var err error
 
-	if _, err = os.Stat("logs"); os.IsNotExist(err) {
-		err = os.Mkdir("logs", 0755)
-		if err != nil {
-			log.Fatalf("Failed to create logs directory: %s", err)
-		}
+	err = os.Mkdir(mainFolder, 0700)
+	if err != nil {
+		log.Fatalf("Failed to create logs directory: %s", err)
 	}
 
 	logFile, err = os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
