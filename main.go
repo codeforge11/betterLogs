@@ -16,6 +16,7 @@ var (
 	filePath      string = mainFolder + "/logsfile.txt" //Location of the main log file
 	maxLine       int16  = 150                          //The maximum number of lines the main log file can have
 	oldLogsPath          = mainFolder + "/old_logs"     //Location of the old logs files
+	finalMessage  string
 )
 
 func CheckLogFile() {
@@ -92,4 +93,14 @@ func LogError(err error) {
 
 func LogMessage(message string) {
 	loggerMessage.Printf("|-| %s", message)
+}
+
+func LogErrow(err error, message string) {
+
+	if len(message) != 0 {
+		finalMessage = message + "|-|" + err.Error()
+	} else {
+		finalMessage = err.Error()
+	}
+	loggerError.Printf("|-| %s", finalMessage)
 }
