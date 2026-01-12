@@ -87,14 +87,17 @@ func init() {
 	CheckLogFile() //Check if the log file has reached the maximum number of lines
 }
 
+// Function to log a single error
 func LogError(err error) {
 	loggerError.Printf("|-| %s", err)
 }
 
+// Function to log a single message
 func LogMessage(message string) {
 	loggerMessage.Printf("|-| %s", message)
 }
 
+// Function to log an error with extra text message
 func LogErrow(err error, message string) {
 
 	if len(message) != 0 {
