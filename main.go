@@ -8,20 +8,41 @@ import (
 	"time"
 )
 
+type Config struct {
+	MainFolder  string
+	FilePath    string //Location of the main log file
+	MaxLine     int16  //The maximum number of lines the main log file can have
+	OldLogsPath string //Location of the old logs files
+
+}
+
 var (
 	logFile       *os.File
 	loggerError   *log.Logger
 	loggerMessage *log.Logger
-	mainFolder    string = "logs"
-	filePath      string = mainFolder + "/logsfile.txt" //Location of the main log file
-	maxLine       int16  = 150                          //The maximum number of lines the main log file can have
-	oldLogsPath          = mainFolder + "/old_logs"     //Location of the old logs files
 	finalMessage  string
 )
 
-func CheckLogFile() {
+func New(c Config) *Config {
+	if c.MainFolder == "" {
+		c.MainFolder = "logs"
+	}
+	if c.FilePath == "" {
+		c.FilePath = c.MainFolder + "/logsfile.txt"
+	}
+	if c.MaxLine == 0 {
+		c.MaxLine = 150
+	}
+	if c.OldLogsPath == "" {
+		c.OldLogsPath = c.MainFolder + "/oldLogs"
+	}
+	c.Init()
+	return &c
+}
 
-	file, err := os.OpenFile(filePath, os.O_RDWR, 0600)
+func (c *Config) CheckLogFile() {
+
+	file, err := os.OpenFile(c.FilePath, os.O_RDWR, 0600)
 	if err != nil {
 		log.Fatalf("Failed to open log file: %s", err)
 	}
@@ -33,16 +54,16 @@ func CheckLogFile() {
 		lineCount++
 	}
 
-	if lineCount >= int(maxLine) {
-		if _, err := os.Stat(oldLogsPath); os.IsNotExist(err) {
-			err = os.Mkdir(oldLogsPath, 0700)
+	if lineCount >= int(c.MaxLine) {
+		if _, err := os.Stat(c.OldLogsPath); os.IsNotExist(err) {
+			err = os.Mkdir(c.OldLogsPath, 0700)
 			if err != nil {
-				log.Fatalf("Failed to create "+oldLogsPath+" directory: %s", err)
+				log.Fatalf("Failed to create "+c.OldLogsPath+" directory: %s", err)
 			}
 		}
 
 		currentTime := time.Now().Format("2006-01-02_15-04-05")
-		backupFileName := oldLogsPath + currentTime + "_logs.txt"
+		backupFileName := c.OldLogsPath + currentTime + "_logs.txt"
 
 		backupFile, err := os.Create(backupFileName)
 		if err != nil {
@@ -67,14 +88,14 @@ func CheckLogFile() {
 	}
 }
 
-func init() {
+func (c *Config) Init() {
 
-	err := os.MkdirAll(mainFolder, 0700)
+	err := os.MkdirAll(c.MainFolder, 0700)
 	if err != nil {
 		log.Fatalf("Failed to create logs directory: %s", err)
 	}
 
-	logFile, err = os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+	logFile, err = os.OpenFile(c.FilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		log.Fatalf("Failed to open error log file: %s", err)
 	}
@@ -83,21 +104,21 @@ func init() {
 
 	loggerMessage = log.New(logFile, "", log.Ldate|log.Ltime)
 
-	CheckLogFile() //Check if the log file has reached the maximum number of lines
+	c.CheckLogFile() //Check if the log file has reached the maximum number of lines
 }
 
 // Function to log a single error
-func LogError(err error) {
+func (c *Config) LogError(err error) {
 	loggerError.Printf("|-| %s", err)
 }
 
 // Function to log a single message
-func LogMessage(message string) {
+func (c *Config) LogMessage(message string) {
 	loggerMessage.Printf("|-| %s", message)
 }
 
 // Function to log an error with extra text message
-func LogErrow(err error, message string) {
+func (c *Config) LogErrow(err error, message string) {
 
 	if len(message) != 0 {
 		finalMessage = message + "|-|" + err.Error()
