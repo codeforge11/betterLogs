@@ -20,7 +20,6 @@ var (
 	logFile       *os.File
 	loggerError   *log.Logger
 	loggerMessage *log.Logger
-	finalMessage  string
 )
 
 func New(c Config) *Config {
@@ -121,7 +120,7 @@ func (c *Config) LogMessage(message string) {
 
 // Function to log an error with extra text message
 func (c *Config) LogErrow(err error, message string) {
-
+	var finalMessage string
 	if len(message) != 0 {
 		finalMessage = message + "|-|" + err.Error()
 	} else {
