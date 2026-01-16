@@ -10,7 +10,7 @@ import (
 
 type Config struct {
 	MainFolder       string //Main logs folder
-	FileName         string //Location of the main log file
+	MainFileName     string //Location of the main log file
 	MaxLine          int16  //The maximum number of lines the main log file can have
 	OldLogsFolder    string //Location of the old logs files
 	OldLogsFilesName string //Name of old logs files
@@ -26,8 +26,8 @@ func New(c Config) *Config {
 	if c.MainFolder == "" {
 		c.MainFolder = "logs"
 	}
-	if c.FileName == "" {
-		c.FileName = "logsfile.txt"
+	if c.MainFileName == "" {
+		c.MainFileName = "logsfile.txt"
 	}
 	if c.MaxLine == 0 {
 		c.MaxLine = 150
@@ -44,7 +44,7 @@ func New(c Config) *Config {
 
 func (c *Config) CheckLogFile() {
 
-	file, err := os.OpenFile((c.MainFolder + "/" + c.FileName), os.O_RDWR, 0600)
+	file, err := os.OpenFile((c.MainFolder + "/" + c.MainFileName), os.O_RDWR, 0600)
 	if err != nil {
 		log.Fatalf("Failed to open log file: %s", err)
 	}
@@ -64,9 +64,9 @@ func (c *Config) CheckLogFile() {
 		}
 
 		currentTime := time.Now().Format("2006-01-02_15-04-05")
-		backupFileName := c.OldLogsFilesName + currentTime + "_logs.txt"
+		backupMainFileName := c.OldLogsFilesName + currentTime + "_logs.txt"
 
-		backupFile, err := os.Create(c.MainFolder + "/" + c.OldLogsFolder + "/" + backupFileName)
+		backupFile, err := os.Create(c.MainFolder + "/" + c.OldLogsFolder + "/" + backupMainFileName)
 		if err != nil {
 			log.Fatalf("Failed to create backup log file: %s", err)
 		}
@@ -96,7 +96,7 @@ func (c *Config) Init() {
 		log.Fatalf("Failed to create logs directory: %s", err)
 	}
 
-	logFile, err = os.OpenFile((c.MainFolder + "/" + c.FileName), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
+	logFile, err = os.OpenFile((c.MainFolder + "/" + c.MainFileName), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 	if err != nil {
 		log.Fatalf("Failed to open error log file: %s", err)
 	}
