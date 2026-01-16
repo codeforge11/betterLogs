@@ -31,18 +31,44 @@ import (
 )
 
 func main() {
-    // Attempt to read a file
-    _, err := os.ReadFile("test.txt")
-    if err != nil {
-        // Log the error details to the default log file
-        betterLogs.LogError(err)
-        return
-    }
 
-    // Log a standard informational message
-    betterLogs.LogMessage("File opened successfully")
+	cfg := betterLogs.Config{
+		FileName:         "YourOwnFileName",
+		MainFolder:       "MainFolderName",
+		OldLogsFilesName: "YourOldLogsFileName",
+		OldLogsFolder:    "YourOldLogsFolderName",
+		MaxLine:          2,
+	}
+	Logger := betterLogs.New(cfg)
+
+	// Attempt to read a file
+	_, err := os.ReadFile("test.txt")
+	if err != nil {
+		// Log the error details to the default log file
+		Logger.LogError(err)
+		return
+	}
+	// Or
+	_, err = os.ReadFile("test.txt")
+	if err != nil {
+		// Log the error details with your optional message
+		Logger.LogErrow("Your own optional message", err)
+		return
+	}
+
+	// Log a standard informational message
+	Logger.LogMessage("File opened successfully")
 }
 ```
+
+## Logs Customizations
+Name | About |Default
+------------- | -------------|-------------
+FileName  | | logsfile.txt
+MainFolder  | | logs
+OldLogsFilesName| | -
+OldLogsFolder  | | [your logs folder]/oldLogs
+MaxLine|| 150
 
 ## More about functions
 
@@ -55,6 +81,11 @@ Records error object output. A lightweight function designed to capture error st
 LogMessage("Example comment") 
 ```
 Provides a versatile way to log custom text. It supports strings of any length, making it ideal for tracking application flow and milestones.
+
+```go
+LogErrow("Your own optional message", err)
+```
+This allows the error to be saved to the logs along with an additional message.
 
 ```go
 CheckLogFile()
