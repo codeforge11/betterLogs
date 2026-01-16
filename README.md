@@ -33,9 +33,9 @@ import (
 func main() {
 
 	cfg := betterLogs.Config{
-		FileName:         "YourOwnFileName",
+		MainFileName:     "YourOwnMainFileName",
 		MainFolder:       "MainFolderName",
-		OldLogsFilesName: "YourOldLogsFileName",
+		OldLogsFilesName: "YourOldLogsMainFileName",
 		OldLogsFolder:    "YourOldLogsFolderName",
 		MaxLine:          2,
 	}
@@ -51,7 +51,7 @@ func main() {
 	// Or
 	_, err = os.ReadFile("test.txt")
 	if err != nil {
-		// Log the error details with your optional message
+		// Log the error details with your own message
 		Logger.LogErrow("Your own optional message", err)
 		return
 	}
@@ -61,14 +61,6 @@ func main() {
 }
 ```
 
-## Logs Customizations
-Name | About |Default
-------------- | -------------|-------------
-FileName  | | logsfile.txt
-MainFolder  | | logs
-OldLogsFilesName| | -
-OldLogsFolder  | | [your logs folder]/oldLogs
-MaxLine|| 150
 
 ## More about functions
 
@@ -85,9 +77,19 @@ Provides a versatile way to log custom text. It supports strings of any length, 
 ```go
 LogErrow("Your own optional message", err)
 ```
-This allows the error to be saved to the logs along with an additional message.
+This enables wrapping errors with custom descriptive messages, making it easier to identify the source of the issue.
 
 ```go
 CheckLogFile()
 ```
 This function checks if the main log file has exceeded the maximum line limit and performs archiving if necessary. It is optional to call this manually, as the library automatically performs this check every time when your application starts.
+
+## Logs Customizations
+Name | About |Default
+------------- | -------------|-------------
+MainFileName  | The name of the primary log file where current errors and messages are stored.| logsfile.txt
+MainFolder  | The root directory where your active log files will be created.| logs
+OldLogsFilesName| Optional prefix or pattern for archived log files (defaults to date-based naming).| -
+OldLogsFolder  |The subfolder where logs are moved after reaching the line limit | [your logs folder]/oldLogs
+MaxLine|The maximum number of lines per file before it is automatically rotated to the archive.| 150
+---------------------------------------
