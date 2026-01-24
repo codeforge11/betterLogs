@@ -91,5 +91,5 @@ MainFileName  | The name of the primary log file where current errors and messag
 MainFolder  | The root directory where your active log files will be created.| logs
 OldLogsFilesName| Optional prefix or pattern for archived log files (defaults to date-based naming).| -
 OldLogsFolder  |The subfolder where logs are moved after reaching the line limit | [your logs folder]/oldLogs
-MaxLine|The maximum number of lines per file before it is automatically rotated to the archive.| 150
+MaxLine|The maximum number of lines per file before it is automatically moved to the archive.| 150
 ---------------------------------------
