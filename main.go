@@ -101,7 +101,7 @@ func (c *Config) Init() {
 		log.Fatalf("Failed to open error log file: %s", err)
 	}
 
-	loggerError = log.New(logFile, "ERROR: ", log.Ldate|log.Ltime)
+	loggerError = log.New(logFile, "", log.Ldate|log.Ltime)
 
 	loggerMessage = log.New(logFile, "", log.Ldate|log.Ltime)
 
@@ -110,21 +110,21 @@ func (c *Config) Init() {
 
 // Function to log a single error
 func (c *Config) LogError(err error) {
-	loggerError.Printf("|-| %s", err)
+	loggerError.Printf("|ERROR| %s", err)
 }
 
 // Function to log a single message
 func (c *Config) LogMessage(message string) {
-	loggerMessage.Printf("|-| %s", message)
+	loggerMessage.Printf("|LOG| %s", message)
 }
 
 // Function to log an error with extra text message
 func (c *Config) LogErrow(err error, message string) {
 	var finalMessage string
 	if len(message) != 0 {
-		finalMessage = message + "|-|" + err.Error()
+		finalMessage = message + "|/|" + err.Error()
 	} else {
 		finalMessage = err.Error()
 	}
-	loggerError.Printf("|-| %s", finalMessage)
+	loggerError.Printf("|LOG| %s", finalMessage)
 }
