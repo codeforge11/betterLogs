@@ -17,9 +17,8 @@ type Config struct {
 }
 
 var (
-	logFile       *os.File
-	loggerError   *log.Logger
-	loggerMessage *log.Logger
+	logFile *os.File
+	logger  *log.Logger
 )
 
 func New(c Config) *Config {
@@ -101,21 +100,19 @@ func (c *Config) Init() {
 		log.Fatalf("Failed to open error log file: %s", err)
 	}
 
-	loggerError = log.New(logFile, "", log.Ldate|log.Ltime)
-
-	loggerMessage = log.New(logFile, "", log.Ldate|log.Ltime)
+	logger = log.New(logFile, "", log.Ldate|log.Ltime)
 
 	c.CheckLogFile() //Check if the log file has reached the maximum number of lines
 }
 
 // Function to log a single error
 func (c *Config) LogError(err error) {
-	loggerError.Printf("|ERROR| %s", err)
+	logger.Printf("|ERROR| %s", err)
 }
 
 // Function to log a single message
 func (c *Config) LogMessage(message string) {
-	loggerMessage.Printf("|LOG| %s", message)
+	logger.Printf("|LOG| %s", message)
 }
 
 // Function to log an error with extra text message
@@ -126,5 +123,5 @@ func (c *Config) LogErrow(err error, message string) {
 	} else {
 		finalMessage = err.Error()
 	}
-	loggerError.Printf("|LOG| %s", finalMessage)
+	logger.Printf("|LOG| %s", finalMessage)
 }
