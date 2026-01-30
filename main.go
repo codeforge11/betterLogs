@@ -14,6 +14,7 @@ type Config struct {
 	MaxLine          int16  //The maximum number of lines the main log file can have
 	OldLogsFolder    string //Location of the old logs files
 	OldLogsFilesName string //Name of old logs files
+
 }
 
 var (
@@ -88,6 +89,7 @@ func (c *Config) CheckLogFile() {
 	}
 }
 
+// Function start when library start
 func (c *Config) Init() {
 
 	err := os.MkdirAll(c.MainFolder, 0700)
