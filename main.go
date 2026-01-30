@@ -105,6 +105,14 @@ func (c *Config) Init() {
 	c.CheckLogFile() //Check if the log file has reached the maximum number of lines
 }
 
+// Function to remove old logs
+func (c *Config) ClearOldLogs() {
+	err := os.RemoveAll("./" + c.MainFolder + "/" + c.OldLogsFolder)
+	if err != nil {
+		log.Fatal("Failed to remove old logs files")
+	}
+}
+
 // Function to log a single error
 func (c *Config) LogError(err error) {
 	logger.Printf("|ERROR| %s", err)
