@@ -106,7 +106,7 @@ func (c *Config) Init() {
 }
 
 // Function to remove old logs
-func (c *Config) ClearOldLogs() {
+func (c *Config) RemoveOldLogs() {
 	err := os.RemoveAll("./" + c.MainFolder + "/" + c.OldLogsFolder)
 	if err != nil {
 		log.Fatal("Failed to remove old logs files")
