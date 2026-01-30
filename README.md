@@ -37,7 +37,7 @@ func main() {
 		MainFolder:       "MainFolderName",
 		OldLogsFilesName: "YourOldLogsMainFileName",
 		OldLogsFolder:    "YourOldLogsFolderName",
-		MaxLine:          2,
+		MaxLine:          20,
 	}
 	Logger := betterLogs.New(cfg)
 
